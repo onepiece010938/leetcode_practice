@@ -34,14 +34,12 @@ type ListNode struct {
 
 func detectCycle(head *ListNode) *ListNode {
 	pos_map := make(map[*ListNode]bool, 0)
-	i := 0
 	for head != nil {
 		if pos_map[head.Next] {
 			return head.Next
 		}
 		pos_map[head] = true
 		head = head.Next
-		i++
 	}
 	return nil
 }
@@ -76,7 +74,7 @@ func detectCycle(head *ListNode) *ListNode {
 
 其实这种情况和n为1的时候 效果是一样的，一样可以通过这个方法找到 环形的入口节点，只不过，index1 指针在环里 多转了(n-1)圈，然后再遇到index2，相遇点依然是环形的入口节点。
 */
-/*
+/* 解答
 func detectCycle(head *ListNode) *ListNode {
     slow, fast := head, head
     for fast != nil && fast.Next != nil {
@@ -91,6 +89,32 @@ func detectCycle(head *ListNode) *ListNode {
         }
     }
     return nil
+}
+*/
+
+/* 更快的解法 用map加雙指針
+func detectCycle(head *ListNode) *ListNode {
+    // slow and fast pointer
+    h := make(map[*ListNode]bool)
+
+	slow := &ListNode{}
+	fast := &ListNode{}
+
+	slow.Next = head
+	fast.Next = head
+
+	for fast != nil && fast.Next != nil {
+        if h[slow]{
+			return slow
+		}
+
+        h[slow] = true
+
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+
+	return nil
 }
 */
 func main() {
